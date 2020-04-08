@@ -6,6 +6,7 @@ import { UsuarioDTO } from 'src/dominio/usuario/modelo/usuario.dto';
 import {FileInterceptor} from '@nestjs/platform-express'
 import { UserPhotoUpdateHandler } from 'src/aplicacion/usuario/command/userPhotoUpdateHandler';
 import { userUpdatehandler } from 'src/aplicacion/usuario/command/userUpdatehandler';
+import { UserGetByIdHnadler } from 'src/aplicacion/usuario/consulta/userGetByIdhandler';
 
 
 @Controller('usuarios')
@@ -14,12 +15,13 @@ export class UsuarioControlador {
     private readonly _manejadorRegistrarUsuario: ManejadorRegistrarUsuario,
     private readonly _manejadorListarUsuario: ManejadorListarUsuario,
     private readonly _manejadorActualizarUsuario: userUpdatehandler,
+    private readonly _manejadorListarPorId: UserGetByIdHnadler,
     private readonly _manejadorActualizarFotoUsuario: UserPhotoUpdateHandler,
   ) { }
 
   @Post()
-  async create(@Body() comandoRegistrarUsuario: userCommand) {
-    await this._manejadorRegistrarUsuario.ejecutar(comandoRegistrarUsuario);
+  async create(@Body() comandoRegistrarUsuario: userCommand): Promise<string> {
+    return await this._manejadorRegistrarUsuario.ejecutar(comandoRegistrarUsuario);
   }
 
   @Put(':id')
@@ -30,6 +32,11 @@ export class UsuarioControlador {
   @Get()
   async listAll(): Promise<UsuarioDTO[]> {
     return await this._manejadorListarUsuario.ejecutar();
+  }
+
+  @Get(':id')
+  async getById(@Param('id') id:string): Promise<UsuarioDTO> {
+    return await this._manejadorListarPorId.ejecutar(id);
   }
 
   @Post('image/:id')

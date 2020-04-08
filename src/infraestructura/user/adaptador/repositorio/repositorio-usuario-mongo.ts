@@ -34,11 +34,12 @@ export class RepositorioUsuarioMongo implements RepositorioUsuario {
     this.repositorio.update({ id: documentID }, { photo: foto })
   }
 
-  async guardar(usuario: Usuario) {
+  async guardar(usuario: Usuario): Promise<string> {
     const entidad = new UsuarioEntidad();
     entidad.name = usuario.name;
     entidad.description = usuario.description;
-    await this.repositorio.save(entidad);
+    const usuarioSaved = await this.repositorio.save(entidad);
+    return Promise.resolve(usuarioSaved.id.toString());
   }
 
 }

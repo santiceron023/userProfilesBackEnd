@@ -4,14 +4,19 @@ import { Injectable } from '@nestjs/common';
 import { ErrorDeNegocio } from 'src/dominio/excepciones/error-de-negocio';
 
 @Injectable()
-export class ServicioRegistrarUsuario {
+export class ServicioActulizarUsuario {
   private _repositorioUsuario: RepositorioUsuario;
 
   constructor(repositorioUsuario: RepositorioUsuario) {
     this._repositorioUsuario = repositorioUsuario;
   }
 
-  async ejecutar(usuario: Usuario):Promise<string> {
-    return await this._repositorioUsuario.guardar(usuario);
+  async ejecutar(usuario: Usuario,userId: string) {
+    if (!await this._repositorioUsuario.existeIdUsuario(userId)) {
+      throw new ErrorDeNegocio(
+        `user with id: ${userId} doesnt exist`,
+      );
+    }
+    await this._repositorioUsuario.actualizar(usuario,userId);
   }
 }

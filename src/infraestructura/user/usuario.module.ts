@@ -14,6 +14,7 @@ import { ServicioActualizarFotoUsuario } from 'src/dominio/usuario/servicio/serv
 import { ServicioRegistrarUsuario } from 'src/dominio/usuario/servicio/servicio-registrar-usuario';
 import { userUpdatehandler } from 'src/aplicacion/usuario/command/userUpdatehandler';
 import { ServicioActulizarUsuario } from 'src/dominio/usuario/servicio/servicio-actualizar-usuario';
+import { UserGetByIdHnadler } from 'src/aplicacion/usuario/consulta/userGetByIdhandler';
 
 const repositorioUsuarioProvider = {
   provide: RepositorioUsuario,
@@ -29,6 +30,7 @@ const daoUsuarioProvider = {
     ServicioRegistrarUsuario,
     ServicioActualizarFotoUsuario,
     repositorioUsuarioProvider,
+    UserGetByIdHnadler,
     daoUsuarioProvider,
     ManejadorRegistrarUsuario,
     ServicioActulizarUsuario,
