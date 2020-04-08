@@ -12,7 +12,7 @@ export class ServicioActulizarUsuario {
   }
 
   async ejecutar(usuario: Usuario,userId: string) {
-    if (!await this._repositorioUsuario.existeIdUsuario(userId)) {
+    if (await !this._repositorioUsuario.existeIdUsuario(userId)) {
       throw new ErrorDeNegocio(
         `user with id: ${userId} doesnt exist`,
       );
