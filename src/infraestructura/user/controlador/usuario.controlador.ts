@@ -41,7 +41,8 @@ export class UsuarioControlador {
 
   @Post('image/:id')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file, @Param('id') id: string ) {
-    this._manejadorActualizarFotoUsuario.ejecutar({photo:file.buffer, userId : id});
+  async uploadFile(@UploadedFile() file, @Param('id') id: string ) : Promise<Buffer>{
+    await this._manejadorActualizarFotoUsuario.ejecutar({photo:file.buffer, userId : id});
+    return Promise.resolve(file.buffer); 
   }
 }
